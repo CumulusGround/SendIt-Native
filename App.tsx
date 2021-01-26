@@ -35,6 +35,40 @@ const HeartIcon = (
   props?: Partial<ImageProps>,
 ): React.ReactElement<ImageProps> => <Icon {...props} name="plus-outline" />;
 
+const SectionListListItem = ({
+  location,
+  difficulty,
+  time,
+}: {
+  location: string;
+  difficulty: string;
+  time: string;
+}) => (
+  <Layout level="2" style={styles.listItem}>
+    <View>
+      <View style={styles.listItemText}>
+        <Text category="h5" appearance="hint">
+          {time}
+        </Text>
+        <Text
+          category="h6"
+          style={{marginLeft: 8, textTransform: 'capitalize'}}>
+          {location}
+        </Text>
+      </View>
+      <View style={styles.badge}>
+        <Text>{difficulty}</Text>
+      </View>
+    </View>
+    <Button
+      style={styles.listItemButton}
+      accessoryLeft={HeartIcon}
+      appearance="outline"
+      // size="tiny"
+    />
+  </Layout>
+);
+
 export default (): React.ReactFragment => (
   <>
     <IconRegistry icons={EvaIconsPack} />
@@ -76,36 +110,7 @@ export default (): React.ReactFragment => (
                 ],
               },
             ]}
-            renderItem={({item: {location, difficulty, time}}) => (
-              <Layout level="2" style={styles.listItem}>
-                <View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginBottom: 4,
-                    }}>
-                    <Text category="h5" appearance="hint">
-                      {time}
-                    </Text>
-                    <Text
-                      category="h6"
-                      style={{marginLeft: 8, textTransform: 'capitalize'}}>
-                      {location}
-                    </Text>
-                  </View>
-                  <View style={styles.badge}>
-                    <Text>{difficulty}</Text>
-                  </View>
-                </View>
-                <Button
-                  style={styles.listItemButton}
-                  accessoryLeft={HeartIcon}
-                  appearance="outline"
-                  // size="tiny"
-                />
-              </Layout>
-            )}
+            renderItem={({item}) => <SectionListListItem {...item} />}
             renderSectionHeader={({section}) => (
               <Text category="h5" style={styles.listHeader}>
                 {section.title}
@@ -157,6 +162,11 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     // border: 'color-primary-default-border',
     borderRadius: 16,
+  },
+  listItemText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
   },
   badge: {
     backgroundColor: 'red',
